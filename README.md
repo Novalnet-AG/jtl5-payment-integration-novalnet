@@ -1,4 +1,4 @@
-#  JTL SHOP PAYMENT PLUGIN BY NOVALNET
+#  JTL5 SHOP PAYMENT PLUGIN BY NOVALNET
 
 The JTL shop payment plugin by Novalnet enables secure integration of payments and payment services for all JTL shops. Novalnet payment plugin for JTL shop helps merchants to automate payment processing from checkout till collection.
 
