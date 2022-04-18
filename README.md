@@ -3,13 +3,13 @@
 The JTL shop payment plugin by Novalnet enables secure integration of payments and payment services for all JTL shops. Novalnet payment plugin for JTL shop helps merchants to automate payment processing from checkout till collection.
 
 
-## Integration Requirements
+## Integration Requirements for JTL5 Shop Payment Plugin
 
 The module is available for the 5.0.0 - 5.1.1  versions in the following languages: EN & DE and requires PHP versions 5.6 and higher. 
 Novalnet merchant account is required for processing all international and local payments in JTL shop. You can get yours here: <a href= "https://www.novalnet.de/kontakt"> https://www.novalnet.de/kontakt/sales </a>
    
   
-## Key Features
+## Key Features of JTL5 Shop Payment Plugin
 
 * Easy configuration of all payment methods (local & international)
 * Up-to-date payment portfolio & automated processing  
@@ -48,7 +48,7 @@ For detailed documentation and other technical inquiries, please send us an emai
 -	Bancontact
 -	Multibanco
 
-## Installation
+## Installation of JTL5 Shop Payment Plugin
 
 Follow these steps for JTL shop Payment Integration by Novalnet:
 1.	Get the payment plugin for JTL shop & detailed documentation by <a href="https://www.novalnet.de/kontakt"> contacting us </a>
@@ -75,4 +75,4 @@ sales@novalnet.de <br>
 
 ## Who is Novalnet?
  
-Novalnet is a German <a href="novalnet.de/zahlungsinstitut"> payment provider </a> offering payment gateways for online merchants and marketplaces worldwide. Our PCI  DSS certified SaaS engine is designed to automate the entire payment process from checkout to debt collection – with a single integration. We cover real-time risk management; secure payments (local + international) through escrow accounts, integrate receivables management, dynamic member and subscription management as well as other customized payment solutions to your JTL shop. For a complete and seamless shop system we do support JTL-Wawi integration for JTL shop.
+<a href="www.novalnet.de/">Novalnet AG</a> is a German payment provider offering payment gateways for online merchants and marketplaces worldwide. Our PCI  DSS certified SaaS engine is designed to automate the entire payment process from checkout to debt collection – with a single integration. We cover real-time risk management; secure payments (local + international) through escrow accounts, integrate receivables management, dynamic member and subscription management as well as other customized payment solutions to your JTL shop. For a complete and seamless shop system we do support JTL-Wawi integration for JTL shop.
