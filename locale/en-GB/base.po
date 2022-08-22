@@ -1,0 +1,233 @@
+msgid "Novalnet-Zahlungsplugin"
+msgstr "Novalnet payment plugin"
+
+msgid "Novalnet-Konfigurationseinstellungen"
+msgstr "Novalnet Global Configuration"
+
+msgid "Produktaktivierungsschlüssel"
+msgstr "Product activation key"
+
+msgid "Zahlungs-Zugriffsschlüssel"
+msgstr "Payment access key"
+
+msgid "Auswahl der Tarif-ID"
+msgstr "Select Tariff ID"
+
+msgid "Verwaltung des Bestellstatus für ausgesetzte Zahlungen"
+msgstr "Order status management for on-hold transactions"
+
+msgid "On-hold-Bestellstatus"
+msgstr "Onhold order status"
+
+msgid "Benachrichtigungs- / Webhook-URL festlegen"
+msgstr "Notification / Webhook URL Setup"
+
+msgid "Benachrichtigungs- / Webhook-URL"
+msgstr "Notification / Webhook URL"
+
+msgid "Manuelles Testen der Benachrichtigungs- / Webhook-URL erlauben"
+msgstr "Allow manual testing of the Notification / Webhook URL"
+
+msgid "Novalnet-Zahlungseinstellungen"
+msgstr "Payment Settings"
+
+msgid "SEPA-Lastschrift"
+msgstr "Direct Debit SEPA"
+
+msgid "Zahlungsart aktivieren"
+msgstr "Enable payment method"
+
+msgid "Testmodus aktivieren"
+msgstr "Enable test mode"
+
+msgid "Fälligkeitsdatum (in Tagen)"
+msgstr "Payment due date (in days)"
+
+msgid "Mindesttransaktionsbetrag für die Autorisierung (in der kleinsten Währungseinheit, z.B. 100 Cent = entsprechen 1.00 EUR)"
+msgstr "Minimum transaction amount for authorization (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)"
+
+msgid "Kauf mit einem Klick"
+msgstr "One-click shopping"
+
+msgid "Status für erfolgreichen Auftragsabschluss"
+msgstr "Completed order status"
+
+msgid "Kredit- / Debitkarte"
+msgstr "Credit/Debit Cards"
+
+msgid "Inline-Kreditkartenformular anzeigen"
+msgstr "Display inline credit card form"
+
+msgid "3D-Secure-Zahlungen außerhalb der EU erzwingen"
+msgstr "Enforce 3D secure payment outside EU"
+
+msgid "Kredit-/Debitkartenlogos ausblenden"
+msgstr "Display Credit/Debit card logos"
+
+msgid "Aktion für vom Besteller autorisierte Zahlungen"
+msgstr "Payment Action"
+
+msgid "Beschriftung"
+msgstr "Label"
+
+msgid "Eingabe"
+msgstr "Input"
+
+msgid "Text für das CSS"
+msgstr "CSS Text"
+
+msgid "Rechnung"
+msgstr "Invoice"
+
+msgid "Callback / Webhook Bestellstatus"
+msgstr "Callback / Webhook order status"
+
+msgid "Vorkasse"
+msgstr "Prepayment"
+
+msgid "Rechnung mit Zahlungsgarantie"
+msgstr "Invoice with payment guarantee"
+
+msgid "Zahlung ohne Zahlungsgarantie erzwingen"
+msgstr "Force non-guarantee payment"
+
+msgid "B2B-Kunden erlauben"
+msgstr "Allow B2B Customers"
+
+msgid "Mindestbestellbetrag (in der kleinsten Währungseinheit, z.B. 100 Cent = entsprechen 1.00 EUR)"
+msgstr "Minimum order amount (in minimum unit of currency. E.g. enter 100 which is equal to 1.00)"
+
+msgid "SEPA-Lastschrift mit Zahlungsgarantie"
+msgstr "Direct Debit SEPA with payment guarantee"
+
+msgid "iDEAL"
+msgstr "iDEAL"
+
+msgid "Sofortüberweisung"
+msgstr "Sofort"
+
+msgid "giropay"
+msgstr "giropay"
+
+msgid "Barzahlen/viacash"
+msgstr "Barzahlen/viacash"
+
+msgid "Verfallsdatum des Zahlscheins (in Tagen)"
+msgstr "Slip expiry date (in days)"
+
+msgid "Przelewy24"
+msgstr "Przelewy24"
+
+msgid "eps"
+msgstr "eps"
+
+msgid "Ratenzahlung per Rechnung"
+msgstr "Instalment by Invoice"
+
+msgid "Ratenzahlungs-Zyklen"
+msgstr "Installment cycles"
+
+msgid "Ratenzahlung per SEPA-Lastschrift"
+msgstr "Instalment by Direct Debit SEPA"
+
+msgid "PayPal"
+msgstr "PayPal"
+
+msgid "PostFinance Card"
+msgstr "PostFinance Card"
+
+msgid "PostFinance E-Finance"
+msgstr "PostFinance E-Finance"
+
+msgid "Bancontact"
+msgstr "Bancontact"
+
+msgid "Multibanco"
+msgstr "Multibanco"
+
+msgid "offen"
+msgstr "open"
+
+msgid "in Bearbeitung"
+msgstr "in progress"
+
+msgid "bezahlt"
+msgstr "paid"
+
+msgid "Storno"
+msgstr "Cancelled"
+
+msgid "Zahlung autorisieren"
+msgstr "Authorize"
+
+msgid "Zahlung einziehen"
+msgstr "Capture"
+
+msgid "Bestellungen"
+msgstr "Orders"
+
+msgid "Ihren Produktaktivierungsschlüssel finden Sie im Novalnet Admin-Portal: PROJEKT > Wählen Sie Ihr Projekt > Shop-Parameter > API-Signatur (Produktaktivierungsschlüssel)"
+msgstr "Get your Product activation key from the Novalnet Admin Portal: PROJECT > Choose your project > Shop Parameters > API Signature (Product activation key)"
+
+msgid "Wählen Sie eine Tarif-ID, die dem bevorzugten Tarifplan entspricht, den Sie im Novalnet Admin-Portal für dieses Projekt erstellt haben"
+msgstr "Select a Tariff ID to match the preferred tariff plan you created at the Novalnet Admin Portal for this project"
+
+msgid "Sie müssen die folgende Webhook-URL im Novalnet Admin-Portal hinzufügen. Dadurch können Sie Benachrichtigungen über den Transaktionsstatus erhalten."
+msgstr "You must add the following webhook endpoint to your Novalnet Admin Portal . This will allow you to receive notifications about the transaction status."
+
+msgid "Aktivieren Sie diese Option, um die Novalnet-Benachrichtigungs-/Webhook-URL manuell zu testen. Deaktivieren Sie die Option, bevor Sie Ihren Shop liveschalten, um unautorisierte Zugriffe von Dritten zu blockieren"
+msgstr "The payment will be processed in the test mode therefore amount for this transaction will not be charged"
+
+msgid "Die Zahlung wird im Testmodus durchgeführt, daher wird der Betrag für diese Transaktion nicht eingezogen"
+msgstr "Enable this option to test payments at your checkout page. In the test mode the amount will not actually be charged by Novalnet. Remember to disable the test mode again after testing to ensure that actual purchased are properly charged"
+
+msgid "Geben Sie die Anzahl der Tage ein, nach denen die Zahlung verarbeitet werden soll (muss zwischen 2 und 14 Tagen liegen)"
+msgstr "Number of days after which the payment is debited (must be between 2 and 14 days)"
+
+msgid "Mindestbestellsumme zur Anzeige der ausgewählten Zahlungsart(en) im Checkout"
+msgstr "Minimum order amount to display the selected payment method (s) at during checkout"
+
+msgid "Inline-Zahlungsformular: Die folgenden Felder werden im Checkout in zwei Zeilen angezeigt: Karteninhaber & Kreditkartennummer / Ablaufdatum / CVC-Code"
+msgstr "Inline form: The following fields will be shown in the checkout in two lines: card holder & credit card number / expiry date / CVC"
+
+msgid "Wenn Sie diese Option aktivieren, werden alle Zahlungen mit Karten, die außerhalb der EU ausgegeben wurden, mit der starken Kundenauthentifizierung (Strong Customer Authentication, SCA) von 3D-Secure 2.0 authentifiziert"
+msgstr "By enabling this option, all payments from cards issued outside the EU will be authenticated via 3DS 2.0 SCA"
+
+msgid "Die gewählten Kartenlogos werden auf der Checkout-Seite nicht mehr angezeigt"
+msgstr "The selected card logos are no longer displayed on the checkout page"
+
+msgid "Anzahl der Tage, die der Käufer Zeit hat, um den Betrag in einer Filiale zu bezahlen. Wenn Sie dieses Feld leer lassen, ist der Zahlschein standardmäßig 14 Tage lang gültig"
+msgstr "Number of days given to the buyer to pay at a store. If this field is left blank, 14 days will be set as slip expiry date by default"
+
+msgid "Anzahl der Tage, die der Käufer Zeit hat, um den Betrag an Novalnet zu überweisen (muss mehr als 7 Tage betragen). Wenn Sie dieses Feld leer lassen, werden standardmäßig 14 Tage als Fälligkeitsdatum festgelegt"
+msgstr "Number of days given to the buyer to transfer the amount to Novalnet (must be greater than 7 days). If this field is left blank, 14 days will be set as due date by default"
+
+msgid "Mindestbestellwert, um die gewählte(n) Zahlungsmethode(n) an der Kasse anzuzeigen"
+msgstr "Minimum order value to display the selected payment method(s) at checkout"
+
+msgid "Wählen Sie die verschiedenen Teilzahlungszyklen, die im Teilzahlungsplan verwendet werden können"
+msgstr "Select the different installment cycles that can be used in the installment plan"
+
+msgid "Status, der zu verwendet wird, wenn das Callback-Skript für eine bei Novalnet eingegangene Zahlung ausgeführt wird"
+msgstr "Status to be used when callback script is executed for payment received by Novalnet"
+
+msgid "Falls die Zahlungsgarantie zwar aktiviert ist, jedoch die Voraussetzungen für Zahlungsgarantie nicht erfüllt sind, wird die Zahlung ohne Zahlungsgarantie verarbeitet. Die Voraussetzungen finden Sie in der Installationsanleitung unter Zahlungsgarantie aktivieren"
+msgstr "Even if payment guarantee is enabled, payments will still be processed as non-guarantee payments if the payment guarantee requirements are not met. Review the requirements under Enable Payment Guarantee in the Installation Guide"
+
+msgid "Anzahl der Tage, die der Käufer Zeit hat, um den Betrag an Novalnet zu überweisen (muss zwischen 7 und 28 Tagen liegen). Wenn Sie dieses Feld leer lassen, werden standardmäßig 14 Tage als Fälligkeitsdatum festgelegt"
+msgstr "Number of days given to the buyer to transfer the amount to Novalnet (must be between 7 and 28 days). If this field is left blank, 14 days will be set as due date by default."
+
+msgid "Wählen Sie, ob die Zahlung sofort belastet werden soll oder nicht. <b>Zahlung einziehen:</b> Betrag sofort belasten. <b>Zahlung autorisieren:</b> Die Zahlung wird überprüft und autorisiert, aber erst zu einem späteren Zeitpunkt belastet. So haben Sie Zeit, über die Bestellung zu entscheiden"
+msgstr "Choose whether or not the payment should be charged immediately. <b>Capture</b> completes the transaction by transferring the funds from buyer account to merchant account. <b>Authorize</b> verifies payment details and reserves funds to capture it later, giving time for the merchant to decide on the order"
+
+msgid "Wählen Sie, welcher Status für erfolgreich abgeschlossene Bestellungen verwendet wird"
+msgstr "Status to be used for successful orders"
+
+msgid "Zahlungsdaten, die während des Bestellvorgangs gespeichert werden, können für zukünftige Zahlungen verwendet werden"
+msgstr "Payment details stored during the checkout process can be used for future payments"
+
+msgid "B2B-Kunden erlauben, Bestellungen aufzugeben"
+msgstr "Allow B2B customers to place order"
+
+msgid "Ihr geheimer Schlüssel zur Verschlüsselung der Daten, um Manipulation und Betrug zu vermeiden."
+msgstr "Your secret key used to encrypt the data to avoid user manipulation and fraud."
