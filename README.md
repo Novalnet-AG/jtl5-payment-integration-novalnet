@@ -5,7 +5,7 @@ The JTL shop payment plugin by Novalnet enables secure integration of payments a
 
 ## Integration Requirements for JTL5 Shop Payment Plugin
 
-The module is available for the 5.0.0 - 5.1.2  versions in the following languages: EN & DE and requires PHP versions 5.6 and higher. 
+The module is available for the 5.0.0 - 5.1.4  versions in the following languages: EN & DE and requires PHP versions 5.6 and higher. 
 Novalnet merchant account is required for processing all international and local payments in JTL shop. You can get yours here: <a href= "https://www.novalnet.de/kontakt"> https://www.novalnet.de/kontakt/sales </a>
    
   
@@ -47,6 +47,7 @@ For detailed documentation and other technical inquiries, please send us an emai
 -	PostFinance E-Finance
 -	Bancontact
 -	Multibanco
+-  Online bank transfer
 
 ## Installation of JTL5 Shop Payment Plugin
 
