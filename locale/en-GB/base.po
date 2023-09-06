@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en_GB\n"
+"X-Generator: Poedit 2.0.6\n"
+
+msgid "Novalnet-Zahlungsplugin"
+msgstr "Novalnet payment plugin"
+
+msgid "Novalnet-Konfigurationseinstellungen"
+msgstr "Novalnet Global Configuration"
+
+msgid "Produktaktivierungsschlüssel"
+msgstr "Product activation key"
+
+msgid "Zahlungs-Zugriffsschlüssel"
+msgstr "Payment access key"
+
+msgid "Auswahl der Tarif-ID"
+msgstr "Select Tariff ID"
+
+msgid "Zahlungsart anzeigen"
+msgstr "Display payment method"
+
+msgid "Verwaltung des Bestellstatus für ausgesetzte Zahlungen"
+msgstr "Order status management for on-hold transactions"
+
+msgid "On-hold-Bestellstatus"
+msgstr "Onhold order status"
+
+msgid "Benachrichtigungs- / Webhook-URL festlegen"
+msgstr "Notification / Webhook URL Setup"
+
+msgid "Benachrichtigungs- / Webhook-URL"
+msgstr "Notification / Webhook URL"
+
+msgid "Manuelles Testen der Benachrichtigungs- / Webhook-URL erlauben"
+msgstr "Allow manual testing of the Notification / Webhook URL"
