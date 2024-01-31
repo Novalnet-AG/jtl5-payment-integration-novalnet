@@ -130,7 +130,7 @@ class NovalnetPaymentGateway
                                                'amount'    => $this->novalnetPaymentHelper->getOrderAmount(),
                                                'currency'  => Frontend::getCurrency()->getCode(),
                                                'system_name'   => 'jtlshop',
-                                               'system_version' => Version::parse(APPLICATION_VERSION)->getOriginalVersion() . '-NN13.0.1-NNTjtlshop_'.$themeName,
+                                               'system_version' => Version::parse(APPLICATION_VERSION)->getOriginalVersion() . '-NN13.0.2-NNTjtlshop_'.$themeName,
                                                'system_url' => Shop::getURL(),
                                                'system_ip'  => $this->novalnetPaymentHelper->getNnIpAddress('SERVER_ADDR')
                                              ];
@@ -732,7 +732,7 @@ class NovalnetPaymentGateway
                                                                   ];
 		}
 		// Process the MB Way
-		$_SESSION['novalnet']['seamless_payment_form_response']['booking_details']['mobile'] = !empty($_SESSION['novalnet']['seamless_payment_form_response']['booking_details']['mobile']) ? $_SESSION['novalnet']['seamless_payment_form_response']['booking_details']['mobile'] : $paymentRequestData['customer']['mobile'];
+		$_SESSION['novalnet']['seamless_payment_form_response']['booking_details']['mobile'] = !empty($_SESSION['novalnet']['seamless_payment_form_response']['booking_details']['mobile']) ? $_SESSION['novalnet']['seamless_payment_form_response']['booking_details']['mobile'] : (!empty($paymentRequestData['customer']['mobile']) ? $paymentRequestData['customer']['mobile'] : '');
 		if (!empty($_SESSION['novalnet']['seamless_payment_form_response']['booking_details']['mobile'])) {
 			$paymentRequestData['customer']['mobile'] = $_SESSION['novalnet']['seamless_payment_form_response']['booking_details']['mobile'];
 		}

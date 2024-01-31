@@ -35,9 +35,11 @@ class Migration20230303113003 extends Migration implements IMigration
         $isCallbackTableExists = Shop::Container()->getDB()->queryPrepared("SHOW TABLES LIKE :callback", [":callback" => "%xplugin_novalnet_callback%"]);
         if ($isCallbackTableExists) {
             $previousCallBackDetails = Shop::Container()->getDB()->queryPrepared("SELECT nc.nCallbackTid callbackTid, sum(nc.nCallbackAmount) callbackAmount FROM xplugin_novalnet_callback nc, xplugin_novalnet_transaction_details nt WHERE nc.nCallbackTid = :nCallbackTid group by :nCallbackTid", [":nCallbackTid" => "nt.nNntid", ":nCallbackTid" => "nc.nCallbackTid"]);
-            foreach ($previousCallBackDetails as $previousCallBackDetail) {
-                $previousCallBackDetails = Shop::Container()->getDB()->queryPrepared("UPDATE xplugin_novalnet_transaction_details SET nCallbackAmount = :callbackamount WHERE nNntid = :nCallbackTid and nCallbackAmount IS NULL LIMIT 1", [":callbackamount" => "$previousCallBackDetail->callbackAmount", ":nCallbackTid" => "$previousCallBackDetail->callbackTid"]);      
-            }
+			if (is_array($previousCallBackDetails) || is_object($previousCallBackDetails)) {
+				foreach ($previousCallBackDetails as $previousCallBackDetail) {
+					$previousCallBackDetails = Shop::Container()->getDB()->queryPrepared("UPDATE xplugin_novalnet_transaction_details SET nCallbackAmount = :callbackamount WHERE nNntid = :nCallbackTid and nCallbackAmount IS NULL LIMIT 1", [":callbackamount" => "$previousCallBackDetail->callbackAmount", ":nCallbackTid" => "$previousCallBackDetail->callbackTid"]);      
+				}
+			}
             // After updating the values to xplugin_novalnet_transaction_details from callback history table and the delete the below table
             $this->execute('DROP TABLE `xplugin_novalnet_callback`');
         }

@@ -1,5 +1,9 @@
 *** Changelog ***
 
+= 13.0.2 - 2024.01.31 =
+* Fix    - Plugin has been made compatible with the shop's default PayPal payment
+* Enhanced - Built-in Sub-Resource Integrity (SRI) integrated for JavaScript files to improve security for preventing unauthorized modifications
+
 = 13.0.1 - 2023.11.16 =
 * Fix    - Minor changes were made to match the JTL coding standards
 

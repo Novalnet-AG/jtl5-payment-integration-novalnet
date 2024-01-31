@@ -22,5 +22,5 @@
     </div>
 </div>
 
-<link rel="stylesheet" type="text/css" href="{$adminUrl}css/novalnet_admin.css">
-<script type="text/javascript" src="{$adminUrl}js/novalnet_admin.js"></script>
+<link rel="stylesheet" type="text/css" href="{$adminUrl}css/novalnet_admin.css" integrity="sha384-J/zSDgUsPgkXirOOdcgZc4CTd4w2tJFKXQgSNJiUfHnRVX2Asw39ZP4HzPEb1VIk">
+<script type="text/javascript" src="{$adminUrl}js/novalnet_admin.js" integrity="sha384-wLf9tKVICpQvZ4YbPa3+FJCCrvVrPQGJGGEnoKxaq2do9CdI+OTnn5JTFnlr+dMz"></script>

@@ -39,5 +39,9 @@
         {/foreach}
         
     {/radiogroup}
-    {$novalnetPaymentForm}
+    {foreach $Zahlungsarten as $zahlungsart}
+		{if $zahlungsart->cModulId == $cModulId}
+			{$novalnetPaymentForm}
+		{/if}
+	{/foreach}
 {/block}

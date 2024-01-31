@@ -188,7 +188,7 @@ class NovalnetHookHandler
 										<iframe style="width:100%;border:0;scrolling:no;" id="v13PaymentForm" src="{$paymentFormResponseData['result']['redirect_url']}"></iframe>
 										<script type='text/javascript' src='https://cdn.novalnet.de/js/pv13/checkout.js'></script>
 										<input type="hidden" name="nn_wallet_data" id="nn_wallet_data" value="{$walletOrderDetails}">
-										<script type='text/javascript' src='{$pluginPath}frontend/js/novalnet_payment.js'></script>
+										<script type='text/javascript' src='{$pluginPath}frontend/js/novalnet_payment.js'  integrity='sha384-qbry1rgKKp0UJABzBMT3Xi68UBAGchcJp3wdvZSMiN178ktNLPMVP8UkKX0Vr5Lk'></script>
 										<div class="card-header alert-danger text-center mb-3 d-none" id="novalnet_payment_form_error_alert"></div>
 									 </fieldset>
 HTML;
@@ -203,6 +203,7 @@ HTML;
 				}
 			 }
 		}
-		Shop::Smarty()->assign('novalnetPaymentForm', $nnPaymentFormScript);
+		Shop::Smarty()->assign('novalnetPaymentForm', $nnPaymentFormScript)
+		->assign('cModulId', $payment->cModulId);
 	}
 }
