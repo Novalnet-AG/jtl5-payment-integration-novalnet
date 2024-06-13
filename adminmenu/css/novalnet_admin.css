@@ -1,0 +1,36 @@
+.nn_fa {
+    float: right;
+    font-size: 15px;
+}
+
+#nn_header {
+    color :#e85b0e;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.body_div {
+    padding:5px;
+    overflow-y:auto;
+    margin-bottom : 2%;
+    height:82%;
+}
+
+#overlay_window_block_body h1 {
+    font-weight:bold;
+}
+
+#nn_transaction_details {
+    line-height: 2.0;
+}
+
+.nn_back_tab {
+    color: white;
+    float: right;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.nn_webhook_button, .nn_webhook_notify  {
+    margin-left: 35% !important;
+}
