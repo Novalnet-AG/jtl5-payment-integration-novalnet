@@ -1,0 +1,768 @@
+<?xml version='1.0' encoding="UTF-8"?>
+<jtlshopplugin>
+    <Name>Novalnet</Name>
+    <Description>Novalnet-Zahlungsplugin</Description>
+    <Author>Novalnet AG</Author>
+    <URL>https://www.novalnet.de</URL>
+    <XMLVersion>102</XMLVersion>
+    <ShopVersion>500</ShopVersion>
+    <PluginID>jtl_novalnet</PluginID>
+    <CreateDate>2025-01-06</CreateDate>
+    <Version>13.1.3</Version>
+    <Install>
+        <Adminmenu>
+            <Customlink sort="0">
+                <Name>Info</Name>
+            </Customlink>
+            <!-- Novalnet Global Settings -->
+            <Settingslink sort="1">
+                <Name>Novalnet-Konfigurationseinstellungen</Name>
+                <Setting type="text" initialValue="Y" sort="0" conf="N">
+                    <Name>Novalnet-Konfigurationseinstellungen</Name>
+                    <ValueName>novalnet_global_configuration</ValueName>
+                </Setting>
+                <Setting type="text" initialValue="" sort="1" conf="Y">
+                    <Name>Produktaktivierungsschlüssel</Name>
+                    <Description><![CDATA[Ihren Produktaktivierungsschlüssel finden Sie im Novalnet Admin-Portal: Projekte > Wählen Sie Ihr Projekt > API-Anmeldeinformationen > API Signature (Aktivierungsschlüssel des Produkts)]]></Description>
+                    <ValueName>novalnet_public_key</ValueName>
+                </Setting>
+                <Setting type="text" initialValue="" sort="2" conf="Y">
+                    <Name>Zahlungs-Zugriffsschlüssel</Name>
+                    <Description><![CDATA[Ihren Paymentzugriffsschlüssel finden Sie im Novalnet Admin-Portal: Projekte > Wählen Sie Ihr Projekt > API-Anmeldeinformationen > Paymentzugriffsschlüssel]]></Description>
+                    <ValueName>novalnet_private_key</ValueName>
+                </Setting>
+                <Setting type="text" initialValue="" sort="3" conf="Y">
+                    <Name>Auswahl der Tarif-ID</Name>
+                    <Description><![CDATA[Wählen Sie eine Tarif-ID, die dem bevorzugten Tarifplan entspricht, den Sie im Novalnet Admin-Portal für dieses Projekt erstellt haben]]></Description>
+                    <ValueName>novalnet_tariffid</ValueName>
+                </Setting>
+                <Setting type="checkbox" initialValue="" sort="4" conf="Y">
+                    <Name>Zahlungsart anzeigen</Name>
+                    <ValueName>novalnet_enable_payment_method</ValueName>
+                </Setting>
+                <Setting type="text" initialValue="Y" sort="5" conf="N">
+                    <Name>Verwaltung des Bestellstatus für ausgesetzte Zahlungen</Name>
+                    <ValueName>novalnet_bestellstatus_verwaltung</ValueName>
+                </Setting>
+                <Setting type="selectbox" initialValue="BESTELLUNG_STATUS_OFFEN" sort="6" conf="Y">
+                    <Name>On-hold-Bestellstatus</Name>
+                    <ValueName>novalnet_onhold_order_status</ValueName>
+                    <SelectboxOptions>
+                        <Option value="BESTELLUNG_STATUS_OFFEN" sort="0">offen</Option>
+                        <Option value="BESTELLUNG_STATUS_IN_BEARBEITUNG" sort="1">in Bearbeitung</Option>
+                        <Option value="BESTELLUNG_STATUS_BEZAHLT" sort="2">bezahlt</Option>
+                        <Option value="BESTELLUNG_STATUS_STORNO" sort="3">Storno</Option>
+                    </SelectboxOptions>
+                </Setting>
+                <Setting type="text" initialValue="Y" sort="7" conf="N">
+                    <Name>Benachrichtigungs- / Webhook-URL festlegen</Name>
+                    <ValueName>novalnet_webhook_scripts</ValueName>
+                </Setting>
+                <Setting type="text" initialValue="" sort="8" conf="Y">
+                    <Name>Benachrichtigungs- / Webhook-URL</Name>
+                    <Description><![CDATA[Sie müssen die folgende Webhook-URL im Novalnet Admin-Portal hinzufügen. Dadurch können Sie Benachrichtigungen über den Transaktionsstatus erhalten.]]></Description>
+                    <ValueName>novalnet_webhook_url</ValueName>
+                </Setting>
+               <Setting type="checkbox" initialValue="" sort="9" conf="Y">
+                    <Name>Manuelles Testen der Benachrichtigungs- / Webhook-URL erlauben</Name>
+                    <ValueName>novalnet_webhook_testmode</ValueName>
+                </Setting>
+            </Settingslink>
+            <Customlink sort="2">
+                <Name>Bestellungen</Name>
+            </Customlink>
+        </Adminmenu>
+        <PaymentMethod>
+            <!-- Novalnet Payment Method -->
+            <Method>
+                <Name>Novalnet</Name>
+                <PictureURL>novalnet.png</PictureURL>
+                <Sort>0</Sort>
+                <SendMail>1</SendMail>
+                <Provider>Novalnet</Provider>
+                <TSCode>OTHER</TSCode>
+                <PreOrder>0</PreOrder>
+                <Soap>0</Soap>
+                <Curl>1</Curl>
+                <Sockets>0</Sockets>
+                <ClassFile>NovalnetPayment.php</ClassFile>
+                <ClassName>NovalnetPayment</ClassName>
+                <AdditionalTemplateFile>template/novalnet_payment.tpl</AdditionalTemplateFile>
+                <MethodLanguage iso="GER">
+                    <Name>Novalnet</Name>
+                    <ChargeName>Gebühr</ChargeName>
+                    <InfoText>Novalnet</InfoText>
+                </MethodLanguage>
+                <MethodLanguage iso="ENG">
+                    <Name>Novalnet</Name>
+                    <ChargeName>Fee</ChargeName>
+                    <InfoText>Novalnet</InfoText>
+                </MethodLanguage>
+            </Method>
+        </PaymentMethod>
+        <!-- Email Template -->
+        <Emailtemplate>
+            <Template>
+                <Name>Email-Benachrichtigung für Callback</Name>
+                <Description></Description>
+                <Type>text/html</Type>
+                <ModulId>novalnetwebhookmail</ModulId>
+                <Active>N</Active>
+                <AKZ>0</AKZ>
+                <AGB>0</AGB>
+                <WRB>0</WRB>
+                <TemplateLanguage iso="GER">
+                    <Subject>Novalnet Webhook-Skript-Benachrichtigung</Subject>
+                    <ContentHtml><![CDATA[{includeMailTemplate template=header type=html}
+Sehr geehrte Kundin,<br><br>
+{$oPluginMail->webhookMessage}<br><br>
+Mit freundlichen Grüßen<br>
+Novalnet AG
+{includeMailTemplate template=footer type=html}]]></ContentHtml>
+                    <ContentText><![CDATA[{includeMailTemplate template=header type=plain}
+Sehr geehrte Kundin,
+{$oPluginMail->webhookMessage}
+Ignorieren Sie bitte diese E-Mail, falls die Bestellung von Ihnen zu Testzwecken durchgeführt wurde.
+Mit freundlichen Grüßen
+Novalnet AG
+{includeMailTemplate template=footer type=plain}]]></ContentText>
+                </TemplateLanguage>
+                <TemplateLanguage iso="ENG">
+                    <Subject>Novalnet webhook script notification</Subject>
+                    <ContentHtml><![CDATA[{includeMailTemplate template=header type=html}
+Dear client,<br><br>
+{$oPluginMail->webhookMessage}<br><br>
+Regards,<br>
+Novalnet AG
+{includeMailTemplate template=footer type=html}]]></ContentHtml>
+                    <ContentText><![CDATA[{includeMailTemplate template=header type=plain}
+Dear client,
+{$oPluginMail->webhookMessage}
+Regards,
+Novalnet AG
+{includeMailTemplate template=footer type=plain}]]></ContentText>
+                </TemplateLanguage>
+            </Template>
+            <Template>
+                <Name>Email-Benachrichtigung für Instalment</Name>
+                <Description></Description>
+                <Type>text/html</Type>
+                <ModulId>novalnetinstalmentmail</ModulId>
+                <Active>Y</Active>
+                <AKZ>0</AKZ>
+                <AGB>0</AGB>
+                <WRB>0</WRB>
+                <TemplateLanguage iso="GER">
+                    <Subject>Neue Rate Auftrag</Subject>
+                    <ContentHtml><![CDATA[{includeMailTemplate template=header type=html}
+Sehr geehrte Kundin,<br>
+{$oPluginMail->nextInstalmentMsg}<br>
+{$oPluginMail->instalmentMessage}<br><br>
+Mit freundlichen Grüßen<br>
+Novalnet AG
+{includeMailTemplate template=footer type=html}]]></ContentHtml>
+                    <ContentText><![CDATA[{includeMailTemplate template=header type=plain}
+Sehr geehrte Kundin,
+{$oPluginMail->nextInstalmentMsg}
+{$oPluginMail->instalmentMessage}
+Ignorieren Sie bitte diese E-Mail, falls die Bestellung von Ihnen zu Testzwecken durchgeführt wurde.
+Mit freundlichen Grüßen
+Novalnet AG
+{includeMailTemplate template=footer type=plain}]]></ContentText>
+                </TemplateLanguage>
+                <TemplateLanguage iso="ENG">
+                    <Subject>New Instalment order</Subject>
+                    <ContentHtml><![CDATA[{includeMailTemplate template=header type=html}
+Dear client,<br><br>
+{$oPluginMail->nextInstalmentMsg}<br>
+{$oPluginMail->instalmentMessage}<br><br>
+Regards,<br>
+Novalnet AG
+{includeMailTemplate template=footer type=html}]]></ContentHtml>
+                    <ContentText><![CDATA[{includeMailTemplate template=header type=plain}
+Dear client,
+{$oPluginMail->nextInstalmentMsg}
+{$oPluginMail->instalmentMessage}
+Regards,
+Novalnet AG
+{includeMailTemplate template=footer type=plain}]]></ContentText>
+                </TemplateLanguage>
+            </Template>
+              <Template>
+                <Name>Email-Benachrichtigung fur Bestellung nicht im Shop gefunden</Name>
+                <Description />
+                <Type>text/html</Type>
+                <ModulId>novalnetcriticalwebhookmail</ModulId>
+                <Active>Y</Active>
+                <AKZ>0</AKZ>
+                <AGB>0</AGB>
+                <WRB>0</WRB>
+                <TemplateLanguage iso="GER">
+                    <Subject>Aktion erforderlich - Bestellung nicht gefunden fur die Transaktions im Ihrer #firma.name#</Subject>
+                    <ContentHtml><![CDATA[{includeMailTemplate template=header type=html}
+Sehr geehrter {$oPluginMail->name},<br><br>
+
+{$oPluginMail->webhookMessage}<br><br>
+
+Mit freundlichen Grüßen<br>
+Novalnet Team
+{includeMailTemplate template=footer type=html}]]></ContentHtml>
+                    <ContentText><![CDATA[{includeMailTemplate template=header type=plain}
+Sehr geehrter {$oPluginMail->name}, 
+
+{$oPluginMail->webhookMessage}
+
+Ignorieren Sie bitte diese E-Mail, falls die Bestellung von Ihnen zu Testzwecken durchgeführt wurde.
+
+Herzliche Grüße,
+Novalnet Team 
+{includeMailTemplate template=footer type=plain}]]></ContentText>
+                </TemplateLanguage>
+                <TemplateLanguage iso="ENG">
+                    <Subject>Action required - Order not found for the transaction in your #firma.name#</Subject>
+                    <ContentHtml><![CDATA[{includeMailTemplate template=header type=html}
+Dear {$oPluginMail->name},<br><br>
+
+{$oPluginMail->webhookMessage}<br><br>
+
+Regards,<br>
+Novalnet Team
+{includeMailTemplate template=footer type=html}]]></ContentHtml>
+                    <ContentText><![CDATA[{includeMailTemplate template=header type=plain}
+Dear {$oPluginMail->name},
+
+{$oPluginMail->webhookMessage}
+
+Regards,
+Novalnet Team
+{includeMailTemplate template=footer type=plain}]]></ContentText>
+                </TemplateLanguage>
+            </Template>
+        </Emailtemplate>
+        <!-- Novalnet Language texts-->
+        <Locales>
+            <!-- Backend language text -->
+            <Variable>
+                <Name>jtl_novalnet_notification_text</Name>
+                <Description>Benachrichtigungstext</Description>
+                <VariableLocalized iso="GER"><![CDATA[Bitte geben Sie den gültigen Produktaktivierungsschlüssel und Paymentzugriffsschlüssel ein.]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Please enter a valid Product Activation Key and Payment Access key.]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_configure_webhook</Name>
+                <Description>Webhook-Konfiguration im Admin-Portal</Description>
+                <VariableLocalized iso="GER"><![CDATA[Konfigurieren]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Configure]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_webhook_alert_text</Name>
+                <Description>Webhook-Warnungstext</Description>
+                <VariableLocalized iso="GER"><![CDATA[Sind Sie sicher, dass Sie die Webhook-URL im Novalnet Admin Portal konfigurieren möchten?]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Are you sure you want to configure the Webhook URL in Novalnet Admin Portal?]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_webhook_notification_text</Name>
+                <Description>Benachrichtigungstext nach der Konfiguration des Webhooks</Description>
+                <VariableLocalized iso="GER"><![CDATA[Callbackskript-/ Webhook-URL wurde erfolgreich im Novalnet Admin Portal konfiguriert]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Notification / Webhook URL is configured successfully in Novalnet Admin Portal]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_webhook_error_text</Name>
+                <Description>Fehlertext für Webhook-Fehlkonfiguration</Description>
+                <VariableLocalized iso="GER"><![CDATA[Bitte geben Sie eine gültige Webhook-URL ein]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Please enter the valid Webhook URL]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_webhook_configuration_tooltip</Name>
+                <Description>Text für Webhook-Tooltip</Description>
+                <VariableLocalized iso="GER"><![CDATA[Klicken Sie hier, um die Callbackskript-/ Webhook-URL im Novalnet Admin Portal automatisch zu konfigurieren]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Click here to auto configure Notification / Webhook URL in Novalnet Admin Portal]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_order_number</Name>
+                <Description>Label zur Anzeige von Novalnet-Bestellungen</Description>
+                <VariableLocalized iso="GER"><![CDATA[BESTELLNUMMER]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[ORDER ID]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_customer_text</Name>
+                <Description>Etikett zur Anzeige von Kundennamen</Description>
+                <VariableLocalized iso="GER"><![CDATA[KUNDE]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[CUSTOMER]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_payment_name_text</Name>
+                <Description>Beschriftung zur Anzeige von Zahlungen</Description>
+                <VariableLocalized iso="GER"><![CDATA[ZAHLUNGSART]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[PAYMENT METHOD]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_wawi_pickup</Name>
+                <Description>Etikett für JTL-Wawi-Pickup</Description>
+                <VariableLocalized iso="GER"><![CDATA[BEREITS AN JTL-WAWI GESENDET]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[ALREADY SENT TO JTL-WAWI]]></VariableLocalized>
+            </Variable>
+             <Variable>
+                <Name>jtl_novalnet_orders_not_available</Name>
+                <Description>Text für Bestellungen im Shop-Backend nicht verfügbar</Description>
+                <VariableLocalized iso="GER"><![CDATA[Keine Daten vorhanden.]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[No data available]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_total_amount_text</Name>
+                <Description>Etikett zur Anzeige des Bestellbetrags</Description>
+                <VariableLocalized iso="GER"><![CDATA[GESAMTSUMME]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[TOTAL SUM]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_order_creation_date</Name>
+                <Description>Beschriftung zur Anzeige der Auftragserstellung</Description>
+                <VariableLocalized iso="GER"><![CDATA[BESTELLDATUM]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[ORDER DATE]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_order_status</Name>
+                <Description>Text für den Bestellstatus</Description>
+                <VariableLocalized iso="GER"><![CDATA[Status]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Status]]></VariableLocalized>
+            </Variable>
+            <!-- Payment text-->
+            <Variable>
+                <Name>jtl_novalnet_customer_comment</Name>
+                <Description>Kundenkommentartext</Description>
+                <VariableLocalized iso="GER"><![CDATA[Kundenkommentare: ]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Customer comments: ]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_transaction_detail</Name>
+                <Description>Detailtext zur Novalnet-Transaktion</Description>
+                <VariableLocalized iso="GER"><![CDATA[Novalnet-Transaktionsdetails]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Novalnet transaction details]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_transaction_tid</Name>
+                <Description>Novalnet-Transaktions-ID-Text</Description>
+                <VariableLocalized iso="GER"><![CDATA[Novalnet-Transaktions-ID]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Novalnet Transaction ID]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_test_order</Name>
+                <Description>Informationstext zur Testbestellung</Description>
+                <VariableLocalized iso="GER"><![CDATA[Testbestellung]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Test order]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_iban</Name>
+                <Description>Text für die Novalnet-IBAN</Description>
+                <VariableLocalized iso="GER"><![CDATA[IBAN: ]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[IBAN: ]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_bic</Name>
+                <Description>Text für den Novalnet BIC</Description>
+                <VariableLocalized iso="GER"><![CDATA[BIC: ]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[BIC: ]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_bank</Name>
+                <Description>Text für die Novalnet BANK</Description>
+                <VariableLocalized iso="GER"><![CDATA[BANK: ]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[BANK: ]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_invoice_payment_transfer_comment</Name>
+                <Description>Kopftext des Kommentars zu Rechnungszahlungen</Description>
+                <VariableLocalized iso="GER"><![CDATA[Bitte überweisen Sie den Betrag von %s auf das folgende Konto]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Please transfer the amount of %s to the following account]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_invoice_payment_transfer_duedate_comments</Name>
+                <Description>Kopftext des Kommentars zu Rechnungszahlungen</Description>
+                <VariableLocalized iso="GER"><![CDATA[Bitte überweisen Sie den Betrag von %s  spätestens bis zum %s auf das folgende Konto]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Please transfer the amount of %s  to the following account on or before %s]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_invoice_payments_holder</Name>
+                <Description>Text des Kontoinhabers für Rechnungszahlungen</Description>
+                <VariableLocalized iso="GER"><![CDATA[Kontoinhaber: ]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Account holder: ]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_invoice_due_date</Name>
+                <Description>Text zum Fälligkeitsdatum der Rechnungszahlungen</Description>
+                <VariableLocalized iso="GER"><![CDATA[Fälligkeitsdatum: ]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Due date: ]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_invoice_payments_amount</Name>
+                <Description>Text zum Betrag des Rechnungszahlungsauftrags</Description>
+                <VariableLocalized iso="GER"><![CDATA[Betrag: ]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Amount: ]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_invoice_payments_order_number_reference</Name>
+                <Description>Referenztext zur Rechnungszahlungsauftragsnummer</Description>
+                <VariableLocalized iso="GER"><![CDATA[Bestellnummer: ]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Order number: ]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_invoice_payments_single_reference_text</Name>
+                <Description>Referenztext für Rechnungszahlungen</Description>
+                <VariableLocalized iso="GER"><![CDATA[Bitte verwenden Sie nur den unten angegebenen Verwendungszweck für die Überweisung, da nur so Ihr Geldeingang zugeordnet werden kann:]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Please use the following payment reference for your money transfer, as only through this way your payment is matched and assigned to the order:]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_instalment_payment_reference</Name>
+                <Description>Referenztext zur Ratenzahlung</Description>
+                <VariableLocalized iso="GER"><![CDATA[Zahlungsreferenz: ]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Payment Reference: ]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_instalment_per_month_text</Name>
+                <Description>Ratenzahlung pro Monat Text</Description>
+                <VariableLocalized iso="GER"><![CDATA[(Monatlich)]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[(per month)]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_invoice_payments_first_reference</Name>
+                <Description>Referenztext für die erste Zahlung bei Rechnungszahlungen</Description>
+                <VariableLocalized iso="GER"><![CDATA[Zahlungsreferenz 1: ]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Payment Reference 1: ]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_invoice_payments_second_reference</Name>
+                <Description>Rechnungszahlungen, zweiter Zahlungsreferenztext</Description>
+                <VariableLocalized iso="GER"><![CDATA[Zahlungsreferenz 2: ]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Payment Reference 2: ]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_zero_amount_booking_text</Name>
+                <Description>Text für Nullbetrag-Prozess</Description>
+                <VariableLocalized iso="GER"><![CDATA[Diese Transaktion wird mit Nullbuchung bearbeitet]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[This order processed as a zero amount booking]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_guarantee_text</Name>
+                <Description>Text für garantierte Zahlung</Description>
+                <VariableLocalized iso="GER"><![CDATA[Diese Transaktion wird mit Zahlungsgarantie verarbeitet]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[This is processed as a guarantee payment]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_guaranteed_invoice_pending_text</Name>
+                <Description>Text für eine garantierte Rechnung mit ausstehender Zahlung</Description>
+                <VariableLocalized iso="GER"><![CDATA[Ihre Bestellung ist unter Bearbeitung. Sobald diese bestätigt wurde, erhalten Sie alle notwendigen Informationen zum Ausgleich der Rechnung. Wir bitten Sie zu beachten, dass dieser Vorgang bis zu 24 Stunden andauern kann]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Your order is under verification and once confirmed, we will send you our bank details to where the order amount should be transferred. Please note that this may take upto 24 hours]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_guaranteed_sepa_pending_text</Name>
+                <Description>Text für garantiertes Sepa bis zur Zahlung</Description>
+                <VariableLocalized iso="GER"><![CDATA[Ihre Bestellung wird derzeit überprüft. Wir werden Sie in Kürze über den Bestellstatus informieren. Bitte beachten Sie, dass dies bis zu 24 Stunden dauern kann]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Your order is under verification and we will soon update you with the order status. Please note that this may take upto 24 hours]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_instalment_information</Name>
+                <Description>Label for instalment information</Description>
+                <VariableLocalized iso="GER"><![CDATA[Zusammenfassung der Ratenzahlung]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Instalment Summary]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_serial_no</Name>
+                <Description>Label for serial no</Description>
+                <VariableLocalized iso="GER"><![CDATA[S.Nr]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[S.No]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_instalment_future_date</Name>
+                <Description>Label for instalment date</Description>
+                <VariableLocalized iso="GER"><![CDATA[Datum]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Date]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_instalment_transaction_id</Name>
+                <Description>Novalnet transaction id text</Description>
+                <VariableLocalized iso="GER"><![CDATA[Novalnet-Transaktions-ID]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Novalnet Transaction ID]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_instalment_amount</Name>
+                <Description>Instalment amount text</Description>
+                <VariableLocalized iso="GER"><![CDATA[Anzahl der Raten]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Instalment Amount]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_cashpayment_expiry_date</Name>
+                <Description>Cashpayment expiry date text</Description>
+                <VariableLocalized iso="GER"><![CDATA[Verfallsdatum des Zahlscheins: ]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Slip expiry date: ]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_cashpayment_nearest_store_details</Name>
+                <Description>Cashpayment nearest store details</Description>
+                <VariableLocalized iso="GER"><![CDATA[Barzahlen-Partnerfiliale in Ihrer Nähe]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Store(s) near you]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_cashpayment_slipurl</Name>
+                <Description>Cashpayment slip URL text</Description>
+                <VariableLocalized iso="GER"><![CDATA[Bezahlen mit Barzahlen]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Pay now with Barzahlen]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_wallet_text</Name>
+                <Description>Wallet payment reference</Description>
+                <VariableLocalized iso="GER"><![CDATA[Ihre Bestellung wurde erfolgreich mit %s durchgeführt (%s **** %s)]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Your order was successfully processed using %s (%s **** %s)]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_multibanco_reference_text</Name>
+                <Description>Multibanco payment reference text</Description>
+                <VariableLocalized iso="GER"><![CDATA[Bitte verwenden Sie die folgende Zahlungsreferenz, um den Betrag von %s  an einem Multibanco-Geldautomaten oder über Ihr Onlinebanking zu bezahlen]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Please use the following payment reference details to pay the amount of %s  at a Multibanco ATM or through your internet banking]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_multibanco_reference_one</Name>
+                <Description>Multibanco first reference</Description>
+                <VariableLocalized iso="GER"><![CDATA[Partner-Zahlungsreferenz: ]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Partner Payment Reference: ]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_multibanco_reference_two</Name>
+                <Description>Multibanco second reference</Description>
+                <VariableLocalized iso="GER"><![CDATA[Entität: ]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Entity: ]]></VariableLocalized>
+            </Variable>
+            <!-- Common Text -->
+            <Variable>
+                <Name>jtl_novalnet_payment_charge</Name>
+                <Description>Payment method charge fee</Description>
+                <VariableLocalized iso="GER"><![CDATA[Gebühr]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Fee]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_checksum_error</Name>
+                <Description>Prüfsummenfehlermeldung für die Umleitung</Description>
+                <VariableLocalized iso="GER"><![CDATA[Prüfsumme ungültig]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Checksum Invalid]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_payment_form_error</Name>
+                <Description>Der Text wird angezeigt, während das Zahlungsformular keine Antwort erhält</Description>
+                <VariableLocalized iso="GER"><![CDATA[Leider konnte Ihre Bestellung nicht erfolgreich abgeschlossen werden. Bitte führen Sie nun die Zahlung durch.]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Unfortunately your order was not suceed.Please proceed the payment now]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_credit_used</Name>
+                <Description>Credit Reviwe System</Description>
+                <VariableLocalized iso="GER"><![CDATA[Verrechnetes Guthaben]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Credit used]]></VariableLocalized>
+            </Variable>
+            <!-- Webhook text -->
+            <Variable>
+                <Name>jtl_novalnet_confirmation_text</Name>
+                <Description>Bestellbestätigungstext</Description>
+                <VariableLocalized iso="GER"><![CDATA[Die Bestellung wurde am %s um %s. Uhr bestätigt.]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Transaction has been confirmed on %s %s.]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_amount_confirmation_text</Name>
+                <Description>Bestellbestätigungstext</Description>
+                <VariableLocalized iso="GER"><![CDATA[Bitte überweisen Sie den Betrag in Höhe von %s bis spätestens %s]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Please transfer the amount of %s on or before %s]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_update_confirmation_text</Name>
+                <Description>Bestellbestätigungstext</Description>
+                <VariableLocalized iso="GER"><![CDATA[Transaktion mit TID %s und Betrag %s %s wurde am %s um %s erfolgreich aktualisiert]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Transaction updated successfully for the TID: %s with the amount %s %s on %s %s]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_transaction_cancellation</Name>
+                <Description>Webhook-Text während eines Transaktionsfehlers</Description>
+                <VariableLocalized iso="GER"><![CDATA[Die Transaktion wurde am %s um %s Uhr storniert.]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[The transaction has been canceled on %s %s.]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_pending_to_onhold_status_change</Name>
+                <Description>Webhook-Text während der anfänglichen Ausführung der Zahlung</Description>
+                <VariableLocalized iso="GER"><![CDATA[Der Status der Transaktion mit der TID: %s wurde am %s um %s Uhr von ausstehend auf ausgesetzt geändert.]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[The transaction status has been changed from pending to on hold for the TID: %s on %s %s.]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_amount_update_message</Name>
+                <Description>Erfolgstext zum Aktualisieren des Betrags</Description>
+                <VariableLocalized iso="GER"><![CDATA[Die Transaktion wurde mit dem Betrag %s am % um %s erfolgreich aktualisiert.]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[The transaction has been updated with amount %s  on %s %s]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_duedate_update_message</Name>
+                <Description>Erfolgstext zum Aktualisieren des Betrags</Description>
+                <VariableLocalized iso="GER"><![CDATA[Die Transaktion wurde mit dem Betrag %s und dem Fälligkeitsdatum %s aktualisiert.]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[The transaction has been updated with amount %s and due date with %s]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_chargeback_execution_text</Name>
+                <Description>Webhook-Text für die Ausführung der Rückbuchung</Description>
+                <VariableLocalized iso="GER"><![CDATA[Rückbuchung erfolgreich ausgeführt für die TID: %s Betrag: %s  am %s %s. Die nachfolgende TID: %s.]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Chargeback executed successfully for the TID: %s amount: %s  on %s %s. The subsequent TID: %s]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_reversal_execution_text</Name>
+                <Description>Webhook-Text für die Umkehrausführung</Description>
+                <VariableLocalized iso="GER"><![CDATA[Chargeback für Rücküberweisung mit dem Betrag %s am %s um %s für TID %s ausgeführt. Die neue TID lautet: %s]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Chargeback executed for reversal of TID %s with the amount %s  on %s %s. The subsequent TID: %s]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_return_debit_execution_text</Name>
+                <Description>Webhook-Text für die Ausführung der Rücklastschrift</Description>
+                <VariableLocalized iso="GER"><![CDATA[Chargeback für Rücklastschrift mit dem Betrag %s  am %s um %s für TID %s ausgeführt. Die neue TID lautet: %s]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Chargeback executed for return debit of TID: %s with the amount  %s on %s %s. The subsequent TID: %s]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_instalment_cancellation</Name>
+                <Description>Webhook-Text während Ratenfehler</Description>
+                <VariableLocalized iso="GER"><![CDATA[Die Ratenzahlung für die TID wurde gekündigt: %s am %s um %s]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Instalment has been cancelled for the TID: %s on %s %s]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_webhook_initial_execution</Name>
+                <Description>Webhook-Text während der anfänglichen Ausführung der Zahlung</Description>
+                <VariableLocalized iso="GER"><![CDATA[Die Gutschrift für die TID ist erfolgreich eingegangen: %s mit Betrag %s am %s um %s. Bitte entnehmen Sie die TID den Einzelheiten der Bestellung bei BEZAHLT in unserem Novalnet Adminportal: %s]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Credit has been successfully received for the TID: %s with amount %s  on %s %s. Please refer PAID order details in our Novalnet Admin Portal for the TID: %s]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_refund_failure</Name>
+                <Description>Webhook-Text bei fehlgeschlagener Rückerstattung</Description>
+                <VariableLocalized iso="GER"><![CDATA[Die Rückerstattung für die Bestellung %s ist fehlgeschlagen aufgrund von: %s]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Payment refund failed for the order: %s due to: %s]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_new_tid_refund_execution</Name>
+                <Description>Webhook-Text für die Ausführung der neuen TID-Rückerstattung</Description>
+                <VariableLocalized iso="GER"><![CDATA[Die neue TID %s für den erstatteten Betrag ]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[New TID: %s for the refunded amount.]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_refund_execution</Name>
+                <Description>Webhook-Text während der Rückerstattungsausführung</Description>
+                <VariableLocalized iso="GER"><![CDATA[Die Rückerstattung für die TID %s mit dem Betrag %s  wurde veranlasst]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Refund has been initiated for the TID: %s with the amount %s ]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_instalment_payment_execution</Name>
+                <Description>Webhook-Text während der Ausführung der Ratenzahlung</Description>
+                <VariableLocalized iso="GER"><![CDATA[Für die Transaktions-ID ist eine neue Rate eingegangen: %s. Die Transaktions-ID der neuen Rate lautet: %s mit Betrag %s am %s um %s.]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[A new instalment transaction has been received for the Transaction ID: %s. The new instalment transaction ID is: %s with amount %s on %s %s.]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_next_instalment_message</Name>
+                <Description>Webhook-Text für die Ausführung der nächsten Ratenzahlung</Description>
+                <VariableLocalized iso="GER"><![CDATA[Der nächste Ratenzyklus für den Ratenzahlungsauftrag  ist eingetroffen]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[The next instalment cycle have received for the instalment order, ]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_payment_reminder</Name>
+                <Description>Webhook-Text für Zahlungserinnerung</Description>
+                <VariableLocalized iso="GER"><![CDATA[Zahlungserinnerung %s wurde an den Kunden gesendet]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Payment Reminder %s has been sent to the customer]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_collection_submission</Name>
+                <Description>Webhook-Text für den Zahlungseinzug</Description>
+                <VariableLocalized iso="GER"><![CDATA[Die Transaktion wurde an das Inkassobüro übergeben. Inkasso-Referenz: %s]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[The transaction has been submitted to the collection agency. Collection Reference: %s]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_zero_amount_booking</Name>
+                <Description>Webhook-Text für Nullbetragbuchung</Description>
+                <VariableLocalized iso="GER"><![CDATA[Ihre Bestellung wurde mit einem Betrag von %s  EUR gebucht. Ihre neue TID für den gebuchten Betrag:  %s]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Your order has been booked with the amount of %s . Your new TID for the booked amount: %s]]></VariableLocalized>
+            </Variable>
+            <!-- Backend configuration text -->
+            <Variable>
+                <Name>jtl_novalnet_webhook_notification</Name>
+                <Description>Text für Webhook-Benachrichtigung</Description>
+                <VariableLocalized iso="GER"><![CDATA[Aktivieren Sie diese Option, um die Novalnet-Benachrichtigungs-/Webhook-URL manuell zu testen. Deaktivieren Sie die Option, bevor Sie Ihren Shop liveschalten, um unautorisierte Zugriffe von Dritten zu blockieren]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Enable this to test the Novalnet Notification / Webhook URL manually. Disable this before setting your shop live to block unauthorized calls from external parties]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_info_page_text</Name>
+                <Description>Text für Novalnet-Infoseite</Description>
+                <VariableLocalized iso="GER"><![CDATA[Bieten Sie Ihren Kunden auf sichere und vertrauenswürdige Weise alle weltweit unterstützten Zahlungsarten. Mit Novalnet können Sie Ihre Verkäufe steigern und Ihren Kunden ein ansprechendes Zahlungserlebnis aus einem Guss bieten <br><br>Bevor Sie beginnen, lesen Sie bitte die Installationsanleitung und melden Sie sich mit Ihrem Händlerkonto im <b><a href="https://admin.novalnet.de" target="_blank"> Novalnet Admin-Portal </a></b> an. Um ein Händlerkonto zu erhalten, senden Sie bitte eine E-Mail an <b><a href="mailto:sales@novalnet.de"> sales@novalnet.de</a></b> oder rufen Sie uns unter <b> +49 89 923068320</b> an]]></VariableLocalized>
+                <VariableLocalized iso="ENG"><![CDATA[Secured and trusted means of accepting all payment methods supported worldwide. Novalnet provides the most convenient way to increase your sales and deliver seamless checkout experience for your customers.<br><br>Please read the Installation Guide before you start and login to the <b><a href="https://admin.novalnet.de" target="_blank"> Novalnet Admin-Portal </a></b> using your merchant account. To get a merchant account, mail to <b><a href="mailto:sales@novalnet.de"> sales@novalnet.de</a></b> or call <b> +49 (089) 923068320</b>]]></VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_critical_mail_title</Name>
+                <Description>Text for critical mail tilte</Description>
+                <VariableLocalized iso="GER">Wir möchten Sie auf die folgenden Transaktionsdetails aufmerksam machen:</VariableLocalized>
+                <VariableLocalized iso="ENG">We would like to bring to your attention the following transaction details:</VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_critical_mail_project_id</Name>
+                <Description>Text for critical mail project id</Description>
+                <VariableLocalized iso="GER">Projekt-ID: %s</VariableLocalized>
+                <VariableLocalized iso="ENG">Project ID: %s</VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_critical_mail_tid</Name>
+                <Description>Text for critical mail tid</Description>
+                <VariableLocalized iso="GER">Transaktions-ID: %s</VariableLocalized>
+                <VariableLocalized iso="ENG">Transaction ID: %s</VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_critical_mail_tid_status</Name>
+                <Description>Text for_critical mail tid status</Description>
+                <VariableLocalized iso="GER">Transaktions-ID Status: %s</VariableLocalized>
+                <VariableLocalized iso="ENG">Transaction ID Status: %s</VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_critical_mail_payment_type</Name>
+                <Description>Text for_critical mail payment type</Description>
+                <VariableLocalized iso="GER">Zahlungsart: %s</VariableLocalized>
+                <VariableLocalized iso="ENG">Payment Type: %s</VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_critical_mail_amount</Name>
+                <Description>Text for_critical mail amount</Description>
+                <VariableLocalized iso="GER">Betrag: %s</VariableLocalized>
+                <VariableLocalized iso="ENG">Amount: %s</VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_critical_mail_customer_email</Name>
+                <Description>Text for_critical mail customer email</Description>
+                <VariableLocalized iso="GER">Kunden-E-Mail: %s</VariableLocalized>
+                <VariableLocalized iso="ENG">Customer E-mail: %s</VariableLocalized>
+            </Variable>
+            
+            <Variable>
+                <Name>jtl_novalnet_critical_mail_webhook_communication</Name>
+                <Description>Text for_critical mail webhook communication</Description>
+                <VariableLocalized iso="GER">Die Zahlung für die oben genannten Transaktionsdetails wurde in Novalnet erfolgreich verarbeitet. Es scheint jedoch, dass unser System Schwierigkeiten bei der Kommunikation mit Ihrem Shopsystem hatte.</VariableLocalized>
+                <VariableLocalized iso="ENG">The payment for the above transaction details was successfully processed in Novalnet. However, it appears that our system encountered difficulties in communicating with your shop system.</VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_critical_mail_discrepancies</Name>
+                <Description>Text for_critical mail discrepancies</Description>
+                <VariableLocalized iso="GER">Wir bitten Sie, eine der folgenden Maßnahmen zu ergreifen, um Unstimmigkeiten bei der Transaktion zu vermeiden:</VariableLocalized>
+                <VariableLocalized iso="ENG">We kindly request one of the following actions to prevent any discrepancies for the transaction:</VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_critical_mail_manual_order_creation</Name>
+                <Description>Text for_critical mail manual order creation</Description>
+                <VariableLocalized iso="GER">Manuelle Auftragserstellung: Bitte legen Sie eine Bestellung manuell im Back-Office Ihres Shops an und erstellen Sie eine Rechnung entsprechend den angegebenen Transaktionsdetails.</VariableLocalized>
+                <VariableLocalized iso="ENG">Manual Order Creation: Please create an order manually in your shop's back-office and generate an invoice corresponding to the provided transaction details.</VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_critical_mail_refund_initiation</Name>
+                <Description>Text for_critical mail refund initiation</Description>
+                <VariableLocalized iso="GER">Einleitung der Rückerstattung: Alternativ können Sie über das &lt;b&gt;&lt;a href=&quot;https://admin.novalnet.de&quot; target=&quot;_blank&quot;&gt; Novalnet Admin-Portal &lt;/a&gt;&lt;/b&gt; eine Rückerstattung der Transaktion beantragen.</VariableLocalized>
+                <VariableLocalized iso="ENG">Refund Initiation: Alternatively, you may initiate a refund for the transaction through the &lt;b&gt;&lt;a href=&quot;https://admin.novalnet.de&quot; target=&quot;_blank&quot;&gt; Novalnet Admin-Portal &lt;/a&gt;&lt;/b&gt;</VariableLocalized>
+            </Variable>
+            <Variable>
+                <Name>jtl_novalnet_critical_mail_promt_review</Name>
+                <Description>Text for_critical mail promt review</Description>
+                <VariableLocalized iso="GER">Wir würden es sehr begrüßen, wenn Sie diese Vorgänge umgehend überprüfen und entsprechende Maßnahmen ergreifen würden.</VariableLocalized>
+                <VariableLocalized iso="ENG">Your prompt review and action on these transaction details would be greatly appreciated. </VariableLocalized>
+            </Variable>
+        </Locales>
+    </Install>
+</jtlshopplugin>
