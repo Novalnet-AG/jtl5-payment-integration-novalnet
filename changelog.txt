@@ -1,0 +1,67 @@
+*** Changelog ***
+
+= 12.2.1 - 2025.01.24 =
+* Enhanced - Payment module has been optimized as per new testcase
+
+= 12.2.0 - 2024.07.15 =
+* New -  Implemented Direct Debit ACH, Blik, MB Way, Payconiq and TWINT payments
+
+= 12.1.3 - 2024.06.27 =
+* Fix -  Code structures optimized to match JTL coding standards
+* Enhanced - Minification of CSS and JavaScript files for enhanced performance
+* Enhanced - Invoice numbers are now fetched from JTL WAWI and transmitted to Novalnet server
+* Enhanced - Customer numbers from JTL WAWI are now mapped with Novalnet transactions to match the payment references               
+
+= 12.1.2 - 2024.06.13 =
+* Fix - Transaction amount are now handled correctly with thousand separators to avoid booking discrepancies 
+
+= 12.1.1 - 2024.04.29 =
+* New - Updated cart details to PayPal
+* Enhanced - Optimized the Callback/Webhook process for fetching Dynamic IP
+* Enhanced - For IBAN-specific countries, the BIC field displayed for payments like Direct Debit SEPA, Direct Debit SEPA with payment guarantee & Instalment by Direct Debit SEPA 
+
+= 12.0.1 - 2024.04.29 =
+* New 	 - Updated cart details to PayPal
+* Enhanced - Optimized the Callback/Webhook process for fetching Dynamic IP
+* Enhanced - For IBAN-specific countries, the BIC field displayed for payments like Direct Debit SEPA, Direct Debit SEPA with payment guarantee & Instalment by Direct Debit SEPA 
+
+= 13.2.0 - 2024.04.05 =
+* New    - Refunding a transaction through JTL WAWI
+* Fix    - Booking amount was mismatched when using a credit bonus 
+* Enhanced - Offering Instalment payments and Guarantee payments to B2B customers in Switzerland
+* Enhanced - Extension of Instalment Payment cycles till 36 cycles
+* Removed  - Payment due date configuration for Direct Debit SEPA with payment guarantee
+
+= 13.0.2 - 2024.01.31 =
+* Fix    - Plugin has been made compatible with the shop's default PayPal payment
+* Enhanced - Built-in Sub-Resource Integrity (SRI) integrated for JavaScript files to improve security for preventing unauthorized modifications
+
+= 13.0.1 - 2023.11.16 =
+* Fix    - Minor changes were made to match the JTL coding standards
+
+= 13.0.0 - 2023.09.06 =
+* Major version release: We've improved the seamless customer experience and brand configurations in the Novalnet Merchant Admin Portal to make it easier to preview and customise the checkout page
+
+= 12.0.1 - 2023.05.23 =
+* New   - Adjusted payment plugin to display Apple Pay button on supported devices
+
+= 12.0.0 - 2023.02.16 =
+* New   - Implemented Apple pay and Google pay payments
+* Fix   - Compatibility for JTL 5.2.2
+ 
+= 1.2.0 - 2022.12.08 =
+* New   - Implemented payment Trustly, Wechat pay and Alipay payments
+* Fix   - Credit/Debit Cards form alignment
+* Enhanced - Invoice payment name is updated for German translation
+* Removed  - One-click shopping for PayPal payment
+
+= 1.1.0 - 2022.08.22 =
+* New   - Implemented Online bank transfer payment
+* New   - Added "state" parameter in the payment request   
+
+= 1.0.1 - 2021.09.27 =
+* Fix   - Compatibility for PHP version 8.0
+
+= 1.0.0 - 2021.08.06 =
+* New Release: Payment plugin built with additional payment methods integration, enhanced features with better usability
+
