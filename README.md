@@ -4,7 +4,7 @@ The JTL shop payment plugin by Novalnet enables secure integration of payments a
 
 ## Integration Requirements for JTL5 Shop Payment Plugin
 
-The module is available for the 5.0.0 - 5.6.1 versions in the following languages: EN & DE and requires PHP versions 8.0 and higher. 
+The module is available for the 5.0.0 - 5.7.1 versions in the following languages: EN & DE and requires PHP versions 8.0 and higher. 
 Novalnet merchant account is required for processing all international and local payments in JTL shop. You can get yours here: <a href= "https://www.novalnet.de/kontakt"> https://www.novalnet.de/kontakt/sales </a>
   
 ## Key Features of JTL5 Shop Payment Plugin
@@ -38,7 +38,7 @@ For detailed documentation and other technical inquiries, please send us an emai
 - Direct Debit SEPA with payment guarantee
 - Instalment by Invoice
 - Instalment by Direct Debit SEPA
-- iDEAL
+- iDEAL | Wero
 - Przelewy24
 - eps
 - PayPal
